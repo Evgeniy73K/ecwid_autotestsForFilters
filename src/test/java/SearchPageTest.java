@@ -6,19 +6,19 @@ public class SearchPageTest extends Settings {
 
 
     @Test
-    public void onSaleCheckBoxTest() {
+    public void inStockFilterTest() {
         searchPage = new SearchPage(driver);
         searchPage.clickInStockCheckBox()
                 .waitApFilter();
         Assert.assertTrue(searchPage.getSoldLabels() == 0, "Found sold products");
 
+    }
 
-
-
-
-
-
-
-
+    @Test
+    public void onSaleFilterTest() {
+        searchPage = new SearchPage(driver);
+        searchPage.clickOnSaleCheckBox()
+                .waitApFilter1();
+        Assert.assertTrue(searchPage.getOnSaleAmount() == searchPage.getSaleLabels());
     }
 }

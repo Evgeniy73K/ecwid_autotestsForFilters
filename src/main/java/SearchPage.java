@@ -31,10 +31,15 @@ public class SearchPage {
     private By soldLabel = By.xpath("//div[text()=\"Распродано\"]");
     private By counterBreadCrumbs = By.xpath(" //a[contains(text(),'Поиск: нашлось 6')]");
     private By inStockCount = By.xpath("//label[@for=\"checkbox-in_stock\"]//div[@class=\"ec-filter__items-count ec-text-muted\"]");
+    private By inSaleCount = By.xpath("//label[@for=\"checkbox-on_sale\"]//div[@class=\"ec-filter__items-count ec-text-muted\"]");
 
 
     public SearchPage clickInStockCheckBox() {
         driver.findElement(inStockCheckbox).click();
+        return this;
+    }
+    public SearchPage clickOnSaleCheckBox() {
+        driver.findElement(onSaleCheckbox).click();
         return this;
     }
 
@@ -45,13 +50,29 @@ public class SearchPage {
         return this;
     }
 
+    public SearchPage waitApFilter1() {
+        int value = getOnSaleAmount();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(text(),'Поиск: "+value+" совпадение')]")));
+        return this;
+    }
+
     public String getInstockAmount() {
         return driver.findElement(inStockCount).getText();
+    }
+
+    public int getOnSaleAmount() {
+        return Integer.valueOf(driver.findElement(inSaleCount).getText());
     }
 
     public int getSoldLabels() {
         List<WebElement> soldLabels = driver.findElements(soldLabel);
         return soldLabels.size();
+    }
+
+    public int getSaleLabels() {
+        List<WebElement> saleLabels = driver.findElements(saleLabel);
+        return saleLabels.size();
     }
 
 
