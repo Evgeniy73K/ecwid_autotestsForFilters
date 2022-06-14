@@ -1,6 +1,7 @@
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+
 
 public class SearchPageTest extends Settings {
 
@@ -10,7 +11,7 @@ public class SearchPageTest extends Settings {
         searchPage = new SearchPage(driver);
         searchPage.clickInStockCheckBox()
                 .waitApFilter();
-        Assert.assertTrue(searchPage.getSoldLabels() == 0, "Found sold products");
+        Assert.assertEquals(searchPage.getSoldLabels(), 0, "Found sold products");
 
     }
 
@@ -19,6 +20,24 @@ public class SearchPageTest extends Settings {
         searchPage = new SearchPage(driver);
         searchPage.clickOnSaleCheckBox()
                 .waitApFilter1();
-        Assert.assertTrue(searchPage.getOnSaleAmount() == searchPage.getSaleLabels());
+        Assert.assertEquals(searchPage.getSaleLabels(), searchPage.getOnSaleAmount());
+    }
+
+    @Test
+    public void sortPriceByAscTest() throws InterruptedException {
+        searchPage = new SearchPage(driver);
+        searchPage.clickSortList()
+                .clickSortPriceByAsc();
+        Thread.sleep(500);
+        Assert.assertTrue(searchPage.getProductPriceList().equals(searchPage.sortByPriceAscList()), "Sorting failed");
+    }
+
+    @Test
+    public void sortPriceByDescTest() throws  InterruptedException {
+        searchPage = new SearchPage(driver);
+        searchPage.clickSortList()
+                .clickSortPriceByDesc();
+        Thread.sleep(500);
+        Assert.assertTrue(searchPage.getProductPriceList().equals(searchPage.sortByPriceDescList()), "Sorting failed");
     }
 }
